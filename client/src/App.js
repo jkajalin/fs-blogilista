@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
@@ -42,16 +43,11 @@ const App = () => {
 
 
   useEffect( async () => {
-    sortByLikes( await blogService.getAll() )
-    //setBlogs(blogs.sort((firstItem, secondItem) => firstItem.likes < secondItem.likes))
-    /*
-      blogService.getAll().then(blogs =>
-      setBlogs(blogs.sort((firstItem, secondItem) => firstItem.likes < secondItem.likes))
-    )
-    */
+    sortByLikes( await blogService.getAll() )    
   }, [])
 
   useEffect(() => {
+    
     const loggedUserJson = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJson) {
       const parsedUser = JSON.parse(loggedUserJson)
@@ -60,19 +56,12 @@ const App = () => {
       blogService.setToken(parsedUser.token)
     }
   }, [])
+  
 
   // Sort blogs by likes
   const sortByLikes = (sblogs) => {
     //console.log('sort by likes')
-    //const sorted = sblogs.sort((firstItem, secondItem) => { firstItem.likes < secondItem.likes} )
-    /*
-    console.log(sblogs.sort((firstItem, secondItem) => {
-      if (firstItem.likes > secondItem.likes) return 1
-      if (firstItem.likes === secondItem.likesb) return 0
-      if (firstItem.likes < secondItem.likes) return -1
 
-    } ))
-    */
     setBlogs( sblogs.sort((firstItem, secondItem) => {
       if (firstItem.likes < secondItem.likes) return 1
       if (firstItem.likes === secondItem.likesb) return 0
@@ -205,7 +194,7 @@ const App = () => {
   )
 
   return (
-    <div>
+    <>
       <Notification message={notification} />
       <ErrorMsg message={errorMsg} />
       {user === null ?
@@ -215,7 +204,7 @@ const App = () => {
           {blogForm()}
         </>
       }
-    </div>
+    </>
   )
 }
 
