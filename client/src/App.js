@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
@@ -31,7 +30,6 @@ const ErrorMsg = ({ message }) => {
 }
 
 const App = () => {
-
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -41,50 +39,51 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-
-  useEffect( async () => {
-    sortByLikes( await blogService.getAll() )    
-  }, [])
-
-  useEffect(() => {
-    
-    const loggedUserJson = window.localStorage.getItem('loggedBlogAppUser')
-    if (loggedUserJson) {
-      const parsedUser = JSON.parse(loggedUserJson)
-      setUser(parsedUser)
-      //console.log(`Parsed token: ${parsedUser.token}`)
-      blogService.setToken(parsedUser.token)
-    }
-  }, [])
-  
-
   // Sort blogs by likes
   const sortByLikes = (sblogs) => {
-    //console.log('sort by likes')
+    // console.log('sort by likes')
 
-    setBlogs( sblogs.sort((firstItem, secondItem) => {
+    setBlogs(sblogs.sort((firstItem, secondItem) => {
       if (firstItem.likes < secondItem.likes) return 1
       if (firstItem.likes === secondItem.likesb) return 0
       if (firstItem.likes > secondItem.likes) return -1
     }))
   }
 
+  useEffect( () => {
+    // 13022023 async function fetchData() added to prevent console warting
+    async function fetchData() {      
+      sortByLikes(await blogService.getAll())      
+    }
+    fetchData()    
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJson = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJson) {
+      const parsedUser = JSON.parse(loggedUserJson)
+      setUser(parsedUser)
+      // console.log(`Parsed token: ${parsedUser.token}`)
+      blogService.setToken(parsedUser.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ kayttajanimi: username, salasana: password, })
+      const user = await loginService.login({ kayttajanimi: username, salasana: password })
       setUser(user)
       setUsername('')
       setPassword('')
-      //console.log('token', user.token)
+      // console.log('token', user.token)
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-      //console.log(`Login token ${user.token}`)
+      // console.log(`Login token ${user.token}`)
       blogService.setToken(user.token)
     } catch (exception) {
       setErrorMsg('wrong credentials')
       setTimeout(() => { setErrorMsg(null) }, 5000)
     }
-    //console.log('logging in with', username, password)
+    // console.log('logging in with', username, password)
   }
 
   const handleLogout = (event) => {
@@ -96,40 +95,35 @@ const App = () => {
   const addNewBlogItem = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
     try {
-
       const responseBlog = await blogService.create(blogObject)
       if (responseBlog) {
         setBlogs(blogs.concat(responseBlog))
-        //console.log(`${responseBlog.title} added succsesfully`)
+        // console.log(`${responseBlog.title} added succsesfully`)
         setNotification(`${responseBlog.title} added succsesfully`)
         setTimeout(() => { setNotification(null) }, 5000)
       }
-
     } catch (exception) {
       setErrorMsg('Creating new blog item failed')
       setTimeout(() => { setErrorMsg(null) }, 5000)
     }
-
   }
 
   const handleLikeButton = async (blogObject) => {
-
     try {
       await blogService.update(blogObject.id, blogObject)
 
+      // eslint-disable-next-line no-confusing-arrow
       const likedBlogs = blogs.map((blog) => blog.id === blogObject.id ? blogObject : blog)
       sortByLikes(likedBlogs)
-
     } catch (error) {
       console.log(error)
     }
-
   }
 
   const handleDelete = async (blg) => {
-
+    // eslint-disable-next-line no-alert
     if (window.confirm(`Delete blog ${blg.title}?`)) {
-      //console.log(`log: deleting ${blg.id}`)
+      // console.log(`log: deleting ${blg.id}`)
       try {
         await blogService.remove(blg.id)
         const edited = blogs.filter(blog => blog.id !== blg.id)
@@ -142,10 +136,9 @@ const App = () => {
         setTimeout(() => {
           setErrorMsg(null)
         }, 5000)
-        //console.log(`Maybe blog is not created by this user?`)
+        // console.log(`Maybe blog is not created by this user?`)
       }
     }
-
   }
 
   const loginForm = () => (
@@ -157,7 +150,7 @@ const App = () => {
           value={username}
           name="Username"
           onChange={({ target }) => setUsername(target.value)}
-          id='usrn'
+          id="usrn"
         />
       </div>
       <div>
@@ -167,10 +160,10 @@ const App = () => {
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
-          id='pswd'
+          id="pswd"
         />
       </div>
-      <button type="submit" id='login-btn'>Login</button>
+      <button type="submit" id="login-btn">Login</button>
     </form>
   )
 
@@ -197,8 +190,8 @@ const App = () => {
     <>
       <Notification message={notification} />
       <ErrorMsg message={errorMsg} />
-      {user === null ?
-        loginForm() :
+      {user === null
+        ? loginForm() :
         <>
           {blogListView()}
           {blogForm()}

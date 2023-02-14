@@ -1,29 +1,13 @@
-/* eslint-disable no-unused-vars */
-// master startpoint template for blogilista app
 require('dotenv').config()
-// blogilista serverin riippuvuudet
-const http = require('http')
-// templaten alkuperäiset härpäkäkkeet
 require('module-alias/register')
 const chokidar = require('chokidar')
 const express = require('express')
 const path = require('path')
 require('express-async-errors')
 
-// eslint-disable-next-line no-unused-vars
 const { PORT, inProduction } = require('@util/common')
-// blogilista serverin riippuvuuksia
 
-const app = express() // original sijainti template express app
-// const app = require('./server/index') // blogilista
-const config = require('./server/util/config')
-const logger = require('./server/util/logger')
-
-// const server = http.createServer(app)
-
-// const app = express() // original sijainti template express app
-
-const server = http.createServer(app)
+const app = express()
 
 // Require is here so we can delete it from cache when files change (*)
 app.use('/api', (req, res, next) => require('@root/server')(req, res, next)) // eslint-disable-line
@@ -74,12 +58,6 @@ if (!inProduction) {
   app.get('*', (req, res) => res.sendFile(INDEX_PATH))
 }
 
-/*
 app.listen(PORT, () => {
   console.log(`Started on port ${PORT}`)
-})
-*/
-
-server.listen(config.PORT, () => {
-  logger.info(`Server running on port ${config.PORT}`)
 })

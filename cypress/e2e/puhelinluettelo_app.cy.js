@@ -1,6 +1,8 @@
+const PORT = 3003
+
 describe('Blog app', function() {
   beforeEach(function() {
-    cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    cy.request('POST', `http://localhost:${PORT}/api/testing/reset`)
 
     const user = {
       nimi: 'Matti Luukkainen',
@@ -12,9 +14,9 @@ describe('Blog app', function() {
       kayttajanimi: 'jussik',
       salasana: 'salainen'
     }
-    cy.request('POST', 'http://localhost:3003/api/users/', user)
-    cy.request('POST', 'http://localhost:3003/api/users/', user2)
-    cy.visit('http://localhost:3000')
+    cy.request('POST',  `http://localhost:${PORT}/api/users/`, user)
+    cy.request('POST', `http://localhost:${PORT}/api/users/`, user2)
+    cy.visit(`http://localhost:${PORT}`)
   })
 
   it('Login form is shown', function() {

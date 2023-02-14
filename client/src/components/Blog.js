@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-//import blogService from '../services/blogs'
+// import blogService from '../services/blogs'
 
 // u is logged in user object, (does not have id data), needed to show delete blog button
 const Blog = ({ blog, handleLike, handleDel, u }) => {

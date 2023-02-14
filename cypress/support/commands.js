@@ -23,23 +23,24 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+const PORT= 3003
 Cypress.Commands.add('login', ({ kayttajanimi, salasana }) => {
-  cy.request('POST', 'http://localhost:3003/api/login', {
+  cy.request('POST', `http://localhost:${PORT}/api/login`, {
     kayttajanimi, salasana
   }).then(({ body }) => {
     localStorage.setItem('loggedBlogAppUser', JSON.stringify(body))
-    cy.visit('http://localhost:3000')
+    cy.visit(`http://localhost:${PORT}`)
   })
 })
 Cypress.Commands.add('createBlog', ({ title, author, url, likes }) => {
   cy.request({
-    url: 'http://localhost:3003/api/blogs',
+    url: `http://localhost:${PORT}/api/blogs`,
     method: 'POST',
-    body: { "title": title, "author": author, "url":url, "likes": likes },
+    body: { 'title': title, 'author': author, 'url':url, 'likes': likes },
     headers: {
       'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogAppUser')).token}`
     }
   })
 
-  cy.visit('http://localhost:3000')
+  cy.visit(`http://localhost:${PORT}`)
 })

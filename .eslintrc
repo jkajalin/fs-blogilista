@@ -1,11 +1,18 @@
 {
-  "extends": "airbnb",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {    
-    "requireConfigFile": false
+    "requireConfigFile": false,
+    "ecmaVersion": "latest"
   },
   "env": {
-    "browser": true,
+    //"commonjs": true,
+    "browser": true,    
+    "es2021": true,
+    "node": true,
     "jest/globals": true,
     "cypress/globals": true
   },
@@ -19,14 +26,35 @@
     "no-plusplus": 0,
     "import/no-unresolved": "off",
     "react/jsx-filename-extension": "off",
-    "react/prop-types": [
-      1,
-      {
-        "skipUndeclared": true
-      }
+    "react/jsx-one-expression-per-line": "off",
+    "react/button-has-type": "off",
+    "arrow-parens":"off",
+    "react/jsx-wrap-multilines":"off",
+    "operator-linebreak": "off",
+    "react/jsx-curly-newline": "off",
+    "comma-dangle": "off",
+    "implicit-arrow-linebreak":"off",
+    "function-paren-newline": "off",
+    "no-console":"off",
+    "prefer-destructuring":"off",
+    "react/function-component-definition": "off",
+    "import/no-import-module-exports": "off",
+    "eol-last":"off",
+    "object-curly-newline":"off",
+    "react/prop-types": "off",
+    "arrow-spacing": [
+      "error", { "before": true, "after": true }
+    ],    
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
     ]
   },
   "plugins": [
     "react", "jest", "cypress"
-  ]
+  ]  
 }
