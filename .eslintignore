@@ -2,3 +2,5 @@ node_modules
 dist
 stats.json
 /server/tests
+/cypress/videos
+.eslintrc.js

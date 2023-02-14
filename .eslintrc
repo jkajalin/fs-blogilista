@@ -6,10 +6,10 @@
   "parser": "@babel/eslint-parser",
   "parserOptions": {    
     "requireConfigFile": false,
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest"    
   },
   "env": {
-    //"commonjs": true,
+    "commonjs": true,
     "browser": true,    
     "es2021": true,
     "node": true,
@@ -53,6 +53,11 @@
       "error",
       "unix"
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
   "plugins": [
     "react", "jest", "cypress"
