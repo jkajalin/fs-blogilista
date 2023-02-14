@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
   return {
     mode,
     entry: [
-      '@babel/polyfill', // so we don't need to import it anywhere
+      // '@babel/polyfill', // so we don't need to import it anywhere
       './client',
       ...additionalEntries,
     ],
