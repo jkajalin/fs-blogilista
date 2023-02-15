@@ -3,7 +3,8 @@
  */
 
 const inProduction = process.env.NODE_ENV === 'production'
+const PORT = process.env.PORT || 8000
 
 module.exports = {
-  inProduction,
+  inProduction, PORT
 }
