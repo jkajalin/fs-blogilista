@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_BLOGI_API_TOKEN }}
 
 jobs:
-  blogilista_deployment_pipeline:
-    if: ${{ github.event_name == 'push' }}
+  blogilista_deployment_pipeline:    
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -33,9 +35,24 @@ jobs:
           start: npm run start:test
           wait-on: http://localhost:8080      
       - name: fly setup
-        if: ${{ !contains( join(github.event.commits.*.message, ', '), '#skip' ) }} 
+        if: ${{ github.event_name == 'push' && !contains( join(github.event.commits.*.message, ', '), '#skip' ) }} 
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: fly deploy
-        if: ${{ !contains( join(github.event.commits.*.message, ', '), '#skip' ) }} 
+        if: ${{ github.event_name == 'push' && !contains( join(github.event.commits.*.message, ', '), '#skip' ) }} 
         run: flyctl deploy --remote-only
+  tag_release_bump:
+    needs: [blogilista_deployment_pipeline]
+    if: ${{ github.event_name == 'push' && !contains( join(github.event.commits.*.message, ', '), '#skip' ) }}
+    runs-on: ubuntu-20.04
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:          
+          ref: main
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.61.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+          DEFAULT_BUMP: patch
       
