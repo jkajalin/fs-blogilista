@@ -23,7 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-const PORT= 3003
+const PORT= 8080
 Cypress.Commands.add('login', ({ kayttajanimi, salasana }) => {
   cy.request('POST', `http://localhost:${PORT}/api/login`, {
     kayttajanimi, salasana

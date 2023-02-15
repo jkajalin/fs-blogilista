@@ -1,4 +1,4 @@
-const PORT = 3003
+const PORT = 8080
 
 describe('Blog app', function() {
   beforeEach(function() {

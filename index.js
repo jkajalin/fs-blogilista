@@ -80,6 +80,7 @@ app.listen(PORT, () => {
 })
 */
 
-server.listen(config.PORT, () => {
-  logger.info(`Server running on port ${config.PORT}`)
+server.listen(PORT, () => {
+  console.log(`Started on port ${PORT}`)
+  logger.info(`Server running on port ${PORT}`)  
 })
