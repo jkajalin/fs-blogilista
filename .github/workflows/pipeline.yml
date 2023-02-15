@@ -23,7 +23,7 @@ jobs:
         uses: cypress-io/github-action@v3
         env:
             TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
-            SECRET: ${{LOGIN_AUTH_SECRET}}
+            SECRET: ${{secrets.LOGIN_AUTH_SECRET}}
         with:          
           command: npm run test:e2e
           start: npm run start:test
