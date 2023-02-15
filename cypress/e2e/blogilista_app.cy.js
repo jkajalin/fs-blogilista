@@ -1,3 +1,4 @@
+// another PORT definition in support/commands file
 const PORT = 8080
 
 describe('Blog app', function() {
