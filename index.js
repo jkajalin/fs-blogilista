@@ -28,6 +28,11 @@ const server = http.createServer(app)
 // Require is here so we can delete it from cache when files change (*)
 app.use('/api', (req, res, next) => require('@root/server')(req, res, next)) // eslint-disable-line
 
+// deployment pipeline healt check
+app.get('/health', (req, res) => {
+  res.send('ok')
+})
+
 /**
  *  Use "hot loading" in backend
  */
