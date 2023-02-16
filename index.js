@@ -33,6 +33,11 @@ app.get('/health', (req, res) => {
   res.send('ok')
 })
 
+// dummy endpoint
+app.get('/dummyversion', (req, res) => {
+  res.send('1')
+})
+
 /**
  *  Use "hot loading" in backend
  */
